@@ -5,11 +5,10 @@ import java.util.List;
 
 public class Queue {
 
-    private static Queue instance;
+    private static Queue instance = new Queue();
 
     public static Queue instanceOf(){
         if (instance == null) {
-            instance = new Queue();
         }
         return instance;
     }
