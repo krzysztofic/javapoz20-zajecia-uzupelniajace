@@ -6,6 +6,7 @@ public class CountService {
 
     public static CountService instanceOf(){
         if(instance ==null){
+            System.out.println("Creating Count Service");
             instance = new CountService();
         }
         return instance;
@@ -19,7 +20,7 @@ public class CountService {
         this.count = this.count + 1;
     }
 
-    public Integer getCount(){
+    public  Integer getCount(){
         return count;
     }
 }
