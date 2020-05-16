@@ -11,5 +11,13 @@ public class PrototypeApplication {
         QueuePrototypeEnum.A.pop();
 
         QueuePrototypeEnum.B.push("one-b");
+
+        QueuePrototype.instanceOf(0).push("Jan");
+        QueuePrototype.instanceOf(0).push("Szymon");
+
+        QueuePrototype.instanceOf(1).push("Anna");
+        QueuePrototype.instanceOf(2).push("Karolina");
+
+        System.out.println();
     }
 }
