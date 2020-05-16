@@ -3,7 +3,10 @@ package com.sda.singleton;
 public class SingletonApplication {
 
     public static void main(String[] args) {
-        Queue queue = new Queue();
+        Queue queue1 = Queue.instanceOf();
+        Queue queue2 = Queue.instanceOf();
+        Queue queue3 = Queue.instanceOf();
+        Queue queue = Queue.instanceOf();
 
         queue.push("Szymon");
         queue.push("Jan");
