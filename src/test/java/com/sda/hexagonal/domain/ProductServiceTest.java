@@ -1,5 +1,6 @@
 package com.sda.hexagonal.domain;
 
+import com.sda.hexagonal.domain.port.ProductNotifier;
 import com.sda.hexagonal.domain.port.ProductRepository;
 import org.junit.Assert;
 import org.junit.Test;
@@ -31,7 +32,9 @@ public class ProductServiceTest {
         Mockito.when(productRepositoryMock.save(Mockito.any()))
                 .then(e -> new Product(1L, name, description, category, weight));
 
-        ProductService productService = new ProductService(productRepositoryMock);
+        ProductNotifier productNotifierMock = Mockito.mock(ProductNotifier.class);
+
+        ProductService productService = new ProductService(productRepositoryMock, productNotifierMock);
 
 
         //when
@@ -42,6 +45,9 @@ public class ProductServiceTest {
         Product expectedProduct = new Product(1L, name, description, category, weight);
 
         Assert.assertEquals("Product is different", expectedProduct, actualProduct);
+
+        Mockito.verify(productNotifierMock, Mockito.times(1))
+                .notifyAboutNewProduct(expectedProduct.getId());
     }
 
 
@@ -52,7 +58,9 @@ public class ProductServiceTest {
         Mockito.when(productRepositoryMock.findByCategory(Mockito.any()))
                 .then(e -> Arrays.asList(new Product(1L, "duplicated-name", null, null, null)));
 
-        ProductService productService = new ProductService(productRepositoryMock);
+
+
+        ProductService productService = new ProductService(productRepositoryMock, Mockito.mock(ProductNotifier.class));
 
         String name = "duplicated-name";
         String description = "product-description";
@@ -61,5 +69,32 @@ public class ProductServiceTest {
 
         // when
         productService.addProduct(name, description, category, weight);
+    }
+
+    @Test
+    public void shouldNotNotifyAboutProductCreationWhileTryingToCreateProductWithSameName(){
+        // given
+        ProductRepository productRepositoryMock = Mockito.mock(ProductRepository.class);
+        Mockito.when(productRepositoryMock.findByCategory(Mockito.any()))
+                .then(e -> Arrays.asList(new Product(1L, "duplicated-name", null, null, null)));
+
+
+        ProductNotifier productNotifierMock = Mockito.mock(ProductNotifier.class);
+        ProductService productService = new ProductService(productRepositoryMock, productNotifierMock);
+
+        String name = "duplicated-name";
+        String description = "product-description";
+        ProductCategory category = ProductCategory.PHONE;
+        Double weight = 1.5;
+
+        // when
+        try{
+            productService.addProduct(name, description, category, weight);
+        }catch(ProductAlreadyExistsException e ){
+            //ignore
+        }
+        Mockito.verify(productNotifierMock, Mockito.never())
+                .notifyAboutNewProduct(Mockito.any());
+
     }
 }

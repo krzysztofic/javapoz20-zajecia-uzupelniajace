@@ -8,7 +8,7 @@ public class HexagonalApplication {
     public static void main(String[] args) {
 
 
-        ProductService productService = new ProductService(new ProductFromTextFileRepository());
+        ProductService productService = new ProductService(new ProductFromTextFileRepository(), null);
         productService.addProduct(null, null, null, null);
     }
 }
