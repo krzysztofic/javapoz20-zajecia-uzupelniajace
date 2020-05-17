@@ -1,0 +1,3 @@
+Krzyzacy;Henryk Sienkiewicz;12334567;LOrem impsum dolor;1678;10;23
+Quo Vadis;Henryk Sienkiewicz;765434422;LOrem impsum dolor;1658;1;1
+Dziady IV;Adam Mickiewicz;76544345654;Lorem impsum dolor;1858;5;20
